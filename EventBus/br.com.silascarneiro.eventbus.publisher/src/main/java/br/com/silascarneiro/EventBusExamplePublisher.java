@@ -32,7 +32,7 @@ public class EventBusExamplePublisher implements HttpFunction {
     publishWithErrorHandlerExample(object.toString(), writer);
   }
 
-  public static void publishWithErrorHandlerExample(String message, BufferedWriter writer)
+  public static void publishWithErrorHandlerExample(Event message, BufferedWriter writer)
       throws Exception {
     TopicName topicName = TopicName.of(PROJECT_ID, TOPIC_ID);
     Publisher publisher = null;
