@@ -6,7 +6,7 @@ public class Event {
         this.subscription = subscription;
     }
 
-    public String getSubscString() {
+    public String getSubscription() {
         return subscription;
     }
 

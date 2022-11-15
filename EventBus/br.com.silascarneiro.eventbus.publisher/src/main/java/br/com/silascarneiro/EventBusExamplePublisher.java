@@ -22,14 +22,14 @@ import java.util.concurrent.TimeUnit;
 public class EventBusExamplePublisher implements HttpFunction {
 
   private static String PROJECT_ID = "aplicacao-gke";
-  private static String TOPIC_ID = "br.com.silascarneiro.exemplo.eventbus";
+  private static String TOPIC_ID = "br.com.silascarneiro.exemplo.eventbus.";
 
   @Override
   public void service(HttpRequest request, HttpResponse response) throws Exception {
     Gson gson = new Gson();
-    JsonObject object = gson.fromJson(request.getReader(), JsonObject.class);
+    Event message = gson.fromJson(request.getReader(), Event.class);
     BufferedWriter writer = response.getWriter();
-    publishWithErrorHandlerExample(object.toString(), writer);
+    publishWithErrorHandlerExample(message, writer);
   }
 
   public static void publishWithErrorHandlerExample(Event message, BufferedWriter writer)
@@ -41,7 +41,8 @@ public class EventBusExamplePublisher implements HttpFunction {
       publisher = Publisher.newBuilder(topicName).build();
 
       ByteString data = ByteString.copyFromUtf8(message);
-      PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
+      PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data)
+          .putAttributes("senderId", message.getSubscription()).build();
 
       ApiFuture<String> future = publisher.publish(pubsubMessage);
 
