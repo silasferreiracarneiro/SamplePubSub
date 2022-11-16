@@ -12,11 +12,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
-class BroadcastExampleConsumer implements BackgroundFunction<PubSubMessage> {
+public class BroadcastExampleConsumer implements BackgroundFunction<PubSubMessage> {
 
   private static final Logger logger = Logger.getLogger(BroadcastExampleConsumer.class.getName());
   private static final String PROJECT_ID = "project-cloudfunctions";
-  private static final String SUBSCRIPTION_ID = "broadcast-one-sub";
+  private static final String SUBSCRIPTION_ID = "broadcast-subscription-two";
 
   public static void main(String... args) throws Exception {
     createPullSubscriptionExample();
