@@ -1,3 +1,5 @@
+package br.com.silascarneiro;
+
 public class Event {
     private String subscription;
     private String message;

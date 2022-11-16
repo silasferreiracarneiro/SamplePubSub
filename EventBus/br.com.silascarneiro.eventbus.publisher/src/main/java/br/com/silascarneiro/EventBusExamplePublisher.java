@@ -10,7 +10,6 @@ import com.google.cloud.functions.HttpResponse;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
 import com.google.pubsub.v1.TopicName;
@@ -21,8 +20,8 @@ import java.util.concurrent.TimeUnit;
 
 public class EventBusExamplePublisher implements HttpFunction {
 
-  private static String PROJECT_ID = "aplicacao-gke";
-  private static String TOPIC_ID = "br.com.silascarneiro.exemplo.eventbus.";
+  private static String PROJECT_ID = "project-cloudfunctions";
+  private static String TOPIC_ID = "topic_broadcast";
 
   @Override
   public void service(HttpRequest request, HttpResponse response) throws Exception {
@@ -40,9 +39,9 @@ public class EventBusExamplePublisher implements HttpFunction {
     try {
       publisher = Publisher.newBuilder(topicName).build();
 
-      ByteString data = ByteString.copyFromUtf8(message);
+      ByteString data = ByteString.copyFromUtf8(message.getMessage());
       PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data)
-          .putAttributes("senderId", message.getSubscription()).build();
+          .putAttributes("sender", message.getSubscription()).build();
 
       ApiFuture<String> future = publisher.publish(pubsubMessage);
 

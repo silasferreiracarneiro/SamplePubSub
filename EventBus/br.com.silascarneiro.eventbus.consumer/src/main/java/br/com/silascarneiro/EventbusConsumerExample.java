@@ -15,8 +15,8 @@ import java.util.logging.Logger;
 public class EventbusConsumerExample implements BackgroundFunction<PubSubMessage> {
 
   private static final Logger logger = Logger.getLogger(EventbusConsumerExample.class.getName());
-  private static final String PROJECT_ID = "aplicacao-gke";
-  private static final String SUBSCRIPTION_ID = "br.com.silascarneiro.exemplo.eventbus-sub2";
+  private static final String PROJECT_ID = "project-cloudfunctions";
+  private static final String SUBSCRIPTION_ID = "payment-subscription";
 
   public static void main(String... args) throws Exception {
     createPullSubscriptionExample();
@@ -48,5 +48,3 @@ public class EventbusConsumerExample implements BackgroundFunction<PubSubMessage
     }
   }
 }
-
-// attributes.eventType="filter1"
