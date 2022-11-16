@@ -19,10 +19,10 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-public class EventHandlerWorker implements HttpFunction {
+public class WorkerExamplePublish implements HttpFunction {
 
-  private static String PROJECT_ID = "aplicacao-gke";
-  private static String TOPIC_ID = "br.com.silascarneiro.exemplo.worker";
+  private static String PROJECT_ID = "project-cloudfunctions";
+  private static String TOPIC_ID = "topic_worker";
 
   @Override
   public void service(HttpRequest request, HttpResponse response) throws Exception {
@@ -47,33 +47,33 @@ public class EventHandlerWorker implements HttpFunction {
 
       ApiFutures.addCallback(
           future,
-          new ApiFutureCallback<String>() {
+              new ApiFutureCallback<>() {
 
-            @Override
-            public void onFailure(Throwable throwable) {
-              try {
-                if (throwable instanceof ApiException) {
-                  ApiException apiException = ((ApiException) throwable);
-                  System.out.println(apiException.getStatusCode().getCode());
-                  System.out.println(apiException.isRetryable());
+                @Override
+                public void onFailure(Throwable throwable) {
+                  try {
+                    if (throwable instanceof ApiException) {
+                      ApiException apiException = ((ApiException) throwable);
+                      System.out.println(apiException.getStatusCode().getCode());
+                      System.out.println(apiException.isRetryable());
+                    }
+                    System.out.println("Error publishing message : " + message);
+                    writer.write("Error publishing message : " + message);
+                  } catch (IOException e) {
+                    e.printStackTrace();
+                  }
                 }
-                System.out.println("Error publishing message : " + message);
-                writer.write("Error publishing message : " + message);
-              } catch (IOException e) {
-                e.printStackTrace();
-              }
-            }
 
-            @Override
-            public void onSuccess(String messageId) {
-              try {
-                System.out.println("Published message ID: " + messageId);
-                writer.write("Published message ID: " + messageId);
-              } catch (IOException e) {
-                e.printStackTrace();
-              }
-            }
-          },
+                @Override
+                public void onSuccess(String messageId) {
+                  try {
+                    System.out.println("Published message ID: " + messageId);
+                    writer.write("Published message ID: " + messageId);
+                  } catch (IOException e) {
+                    e.printStackTrace();
+                  }
+                }
+              },
           MoreExecutors.directExecutor());
     } finally {
       if (publisher != null) {
