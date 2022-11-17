@@ -5,31 +5,32 @@ por difusão de mensagens. Todos os serviços são editores e assinantes em simu
 portanto qualquer mensagem publicada por um serviço deve ser recebida por todos os outros serviços, 
 mas não deve ser enviada ao editor (o editor não está interessado na sua própria mensagem).
 
-    # Primeiro vamos criar o TOPIC
+    # Primeiro vamos criar nosso o TOPIC
 `
 gcloud pubsub topics create topic_broadcast
 `
 
     # Logo em seguida vamos criar nossas subscriptions
 `
-gcloud pubsub subscriptions create broadcast-subscription-one --topic=topic_broadcast
+gcloud pubsub subscriptions create broadcast_subscription_one --topic=topic_broadcast
 `
 `
-gcloud pubsub subscriptions create broadcast-subscription-two --topic=topic_broadcast
+gcloud pubsub subscriptions create broadcast_subscription_two --topic=topic_broadcast
 `
 
     # Vamos publicar nossa function que vai publicar no TOPIC (Publisher).
 `
-gcloud functions deploy broadcast-publisher \
+gcloud functions deploy broadcast_publisher \
 --entry-point br.com.silascarneiro.BroadcastExamplePublish \
 --runtime java11 \
 --memory 256MB \
 --trigger-http
 `
 
-    # Vamos criar os consumidores dos subscribes
+    # Vamos criar os consumidores dos subscribes \n não esqueça de mudar a subscription e o nome do projeto dentro da function
+    
 `    
-gcloud functions deploy broadcast-subscribe-one \
+gcloud functions deploy broadcast_subscribe_one \
 --entry-point br.com.silascarneiro.BroadcastExampleConsumer \
 --trigger-topic topic_broadcast  \
 --runtime java11 \
@@ -38,7 +39,7 @@ gcloud functions deploy broadcast-subscribe-one \
 `
 
 `    
-gcloud functions deploy broadcast-subscribe-two \
+gcloud functions deploy broadcast_subscribe_two \
 --entry-point br.com.silascarneiro.BroadcastExampleConsumer \
 --trigger-topic topic_broadcast  \
 --runtime java11 \
@@ -57,26 +58,26 @@ gcloud pubsub topics create topic_eventbus
 
     # Logo em seguida vamos criar nossas subscriptions
 `
-gcloud pubsub subscriptions create client-subscription --topic=topic_eventbus --message-filter='attributes.sender="client"'
+gcloud pubsub subscriptions create client_subscription --topic=topic_eventbus --message-filter='attributes.sender="client"'
 `
 
 `    
-gcloud pubsub subscriptions create payment-subscription --topic=topic_eventbus --message-filter='attributes.sender="payment"'
+gcloud pubsub subscriptions create payment_subscription --topic=topic_eventbus --message-filter='attributes.sender="payment"'
 `
 
     # Vamos publicar nossa function que vai publicar no TOPIC (Publisher)
 `
-gcloud functions deploy eventbus-publisher \
+gcloud functions deploy eventbus_publisher \
 --entry-point br.com.silascarneiro.EventBusExamplePublisher \
 --runtime java11 \
 --memory 256MB \
 --trigger-http
 `
 
-    # Vamos criar os consumidores dos subscribes
+    # Vamos criar os consumidores dos subscribes \n não esqueça de mudar a subscription e o nome do projeto dentro da function
 
 `    
-gcloud functions deploy eventbus-subscribe-filter-payment \
+gcloud functions deploy eventbus_subscribe_filter_payment \
 --entry-point br.com.silascarneiro.EventbusConsumerExample \
 --trigger-topic topic_eventbus  \
 --runtime java11 \
@@ -85,7 +86,7 @@ gcloud functions deploy eventbus-subscribe-filter-payment \
 `
 
 `    
-gcloud functions deploy eventbus-subscribe-filter-client \
+gcloud functions deploy eventbus_subscribe_filter_client \
 --entry-point br.com.silascarneiro.EventbusConsumerExample \
 --trigger-topic topic_eventbus  \
 --runtime java11 \
@@ -106,12 +107,12 @@ gcloud pubsub topics create topic_worker
 
     # Logo em seguida vamos criar nosso subscription
 `
-gcloud pubsub subscriptions create worker-subscription --topic=topic_worker
+gcloud pubsub subscriptions create worker_subscription --topic=topic_worker
 `
 
     # Vamos publicar nossa function que vai publicar no TOPIC (Publisher)
 `
-gcloud functions deploy worker-publisher \
+gcloud functions deploy worker_publisher \
 --entry-point br.com.silascarneiro.WorkerExamplePublish \
 --runtime java11 \
 --memory 256MB \
@@ -121,7 +122,7 @@ gcloud functions deploy worker-publisher \
     # Vamos criar os workers
 
 `    
-gcloud functions deploy worker-subscribe-one \
+gcloud functions deploy worker_subscribe_one \
 --entry-point br.com.silascarneiro.WorkerConsumerExample \
 --trigger-topic topic_worker  \
 --runtime java11 \
@@ -130,7 +131,7 @@ gcloud functions deploy worker-subscribe-one \
 `
 
 `    
-gcloud functions deploy worker-subscribe-two \
+gcloud functions deploy worker_subscribe_two \
 --entry-point br.com.silascarneiro.WorkerConsumerExample \
 --trigger-topic topic_worker  \
 --runtime java11 \

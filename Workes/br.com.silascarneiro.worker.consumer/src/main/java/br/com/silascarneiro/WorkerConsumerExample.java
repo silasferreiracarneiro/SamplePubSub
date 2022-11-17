@@ -15,8 +15,8 @@ import java.util.logging.Logger;
 public class WorkerConsumerExample implements BackgroundFunction<PubSubMessage> {
 
   private static final Logger logger = Logger.getLogger(WorkerConsumerExample.class.getName());
-  private static final String PROJECT_ID = "project-cloudfunctions";
-  private static final String SUBSCRIPTION_ID = "worker-subscription";
+  private static final String PROJECT_ID = "xxx";
+  private static final String SUBSCRIPTION_ID = "xxx";
 
   public static void main(String... args) {
     createPullSubscriptionExample();

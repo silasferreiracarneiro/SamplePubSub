@@ -21,8 +21,8 @@ import java.util.concurrent.TimeUnit;
 
 public class WorkerExamplePublish implements HttpFunction {
 
-  private static String PROJECT_ID = "project-cloudfunctions";
-  private static String TOPIC_ID = "topic_worker";
+  private static String PROJECT_ID = "xxx";
+  private static String TOPIC_ID = "xxx";
 
   @Override
   public void service(HttpRequest request, HttpResponse response) throws Exception {
